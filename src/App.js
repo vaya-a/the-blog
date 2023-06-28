@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { LandingPage } from './pages/LandingPage/LandingPage';
+import { WritingPage } from './pages/WritingPage/WritingPage';
+import { Route, Routes } from 'react-router-dom';
+import { RegistPage } from './pages/RegistPage';
+import { ForgotPassword } from './pages/ForgotPassword';
+import { Verification } from './pages/VerificationPage';
+import { ResetPassword } from './pages/ResetPassword';
+import SettingPage from './pages/SettingPage/SettingPage';
+import { TrialWriting } from './pages/WritingPage/TrialWriting';
+
 
 function App() {
+  const url = window.location.href.split("/");
+  const token = url[url.length - 1];
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <>
+      <Routes>
+        <Route path='/' element={<LandingPage/>} />
+        <Route path='/write-page' element={<TrialWriting/>} />
+        <Route path='/register' element={<RegistPage/>}></Route>
+        <Route path='/forgot-password' element={<ForgotPassword/>}></Route>
+        <Route path={`verification/${token}`} element={<Verification/>}></Route>
+        <Route path={`/reset-password/${token}`} element={<ResetPassword/>}></Route>
+        <Route path='/settings' element={<SettingPage/>}></Route>
+      </Routes>
+      </>
     </div>
   );
 }
