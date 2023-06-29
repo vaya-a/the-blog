@@ -1,11 +1,9 @@
 import React, {
     useState
 } from "react"
-import{ Box, Flex, Text, HStack, Stack, Image, Highlight } from "@chakra-ui/react"
+import{ Box, Flex, Text, HStack, Stack, Image} from "@chakra-ui/react"
 import { useEffect } from "react";
 import axios from "axios"
-import { useDispatch } from "react-redux";
-
 
 export const Slide = () => {
 
@@ -24,8 +22,6 @@ export const Slide = () => {
   useEffect(() => {
     topLike();
   }, []);
-
-  const dispatch = useDispatch()
 
   const arrowStyles = {
       cursor: "pointer",

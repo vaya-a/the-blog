@@ -74,6 +74,16 @@ import {
                         status: "error",
                         isClosable: true,
                       });
+                      // toast.error("Error creating article, please try again!", {
+                      //   position: "top-right",
+                      //   autoClose: 5000,
+                      //   hideProgressBar: false,
+                      //   closeOnClick: true,
+                      //   pauseOnHover: true,
+                      //   draggable: true,
+                      //   progress: undefined,
+                      //   theme: "colored",
+                      // });
                     console.log(err)
                     console.log(`${value} phone`)
                 }
@@ -107,6 +117,7 @@ import {
                         duration: "2000",
                         isClosable: true,
                       });
+
                     console.log(err)
                     console.log(`${value} email`)
                 }

@@ -1,19 +1,21 @@
-import React, {useState} from "react";
-import { Box, Flex, FormHelperText, Textarea, FormControl, FormLabel, Input, Select, Heading, Button, Text, Stack, useToast } from "@chakra-ui/react";
-import { Navbar1 } from "../../component/Navbar-1";
-import { useDropzone } from 'react-dropzone';
-import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
-import { Footer } from "../../component/Footer/Footer";
+import React, {useRef, useState} from "react";
+import { Box, Flex, FormHelperText, Textarea, FormControl, FormLabel, Input, Select, Heading, Button, Image } from "@chakra-ui/react";
+import { Navbar1 } from "../component/Navbar-1";
+import { Footer } from "../component/Footer/Footer";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import { LandingPage } from "../LandingPage/LandingPage";
+import { LandingPage } from "./LandingPage/LandingPage";
+import { newPost } from "../redux/reducer/PostReducer";
 import { useDispatch } from "react-redux";
-import { newPost } from "../../redux/reducer/PostReducer";
-import { useEffect } from "react";
 import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-toastify"
 
 
-export const TrialWriting = () => {
+export const Writing = () => {
+  
+  const login = useSelector((state) => state.UserReducer.login)
 
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -60,56 +62,49 @@ export const TrialWriting = () => {
     dispatch(newPost(data, file));
   };
 
-  return (
-    <Box bgColor={"#E8EDE7"}>
-      <Box
-        fontFamily={"monospace"}
-        // bgColor={""}
-
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Stack
-          mt={"40px"}
-          mb={"40px"}
-          bgColor={"white"}
-          boxShadow={"dark-lg"}
-          rounded={"xl"}
-          padding={10}
-        >
-          <Flex display={"flex"} justifyContent={"flex-start"}>
-            <Text mr={4} fontSize={"4xl"} mb={4}>
-              Create Article
-            </Text>
-          </Flex>
-          <form onSubmit={handleSubmit}>
-            <Flex>
-              <Box>
-                <Input
-                  type="text"
-                  id="title"
-                  mb={"10px"}
-                  border={"1px solid #378BA4"}
-                  placeholder={"Input Title"}
-                />
-                <Box alignSelf={"left"} mb={"20px"}>
-                  <Select
-                    mb={"10px"}
-                    border={"1px solid #378BA4"}
-                    value={selectedOption}
-                    onChange={handleOptionChange}
-                    style={{ width: "100%", alignItems: "center" }}
-                  >
-                    <option value="">Select Category</option>
+    return(
+        <Box>
+            {!login ? 
+            <>
+            <Routes>
+            <Route path='/' element={<LandingPage/>} />
+            </Routes>
+            </> : 
+            <>
+            <Navbar1/>
+            <Box h={'70%'} margin={'40'} borderWidth="2px" borderColor="pink.300" borderRadius="md" p={4}>
+            <Box mt={'20'} display={'flex'} justifyContent={'center'}>
+                <Heading>Share Your Beauty Journey</Heading>
+            </Box>
+            <br/>
+            <form onSubmit={handleSubmit}>
+            <Box mt={'15'} mr={'20'} ml={'20'}>
+                <FormControl mt={'5'}>
+                    <FormLabel>Title</FormLabel>
+                    <Textarea id="title" minH={'47px'}></Textarea>
+                </FormControl>
+                <FormControl mt={'-1'}>
+                    <FormLabel></FormLabel>
+                    <Textarea id="content" placeholder="Tell everything here..." minH={'200px'}></Textarea>
+                </FormControl>
+                <FormControl mt={'5'}>
+                    <FormLabel>Country Origin</FormLabel>
+                    <Textarea id="country" minH={'47px'}></Textarea>
+                </FormControl>
+                <FormControl mt={'5'}>
+                    <FormLabel>Category</FormLabel>
+                    <Select onChange={handleOptionChange} placeholder='Select Category'>
                     {category &&
                       category.map((item) => (
                         <option key={item.id} value={item.id}>
                           {item.name}
                         </option>
                       ))}
-                  </Select>
-                  <Box mr={10}>
+                    </Select>
+                </FormControl>
+                <FormControl mt={'5'}>
+                    <FormLabel>Upload Image</FormLabel>
+                    <Box mr={10}>
                 <Flex>
                   {/* <FormLabel display={"flex"} alignItems={"center"}>
                   Image
@@ -126,7 +121,7 @@ export const TrialWriting = () => {
                 </Flex>
                 {selectedImage && (
                   <Box mb={6} position={"relative"}>
-                    <img
+                    <Image
                       src={selectedImage}
                       alt="Image Preview"
                       style={{
@@ -138,40 +133,25 @@ export const TrialWriting = () => {
                   </Box>
                 )}
               </Box>
-                  <Input
+                </FormControl>
+                <FormControl mt={'5'}>
+                    <FormLabel>Keywords</FormLabel>
+                    <Input
                     type="text"
                     placeholder="Keyword"
                     id="keywords"
                     mb={"10px"}
                     border={"1px solid #378BA4"}
                   />
-
-                  <Input
-                    type="text"
-                    placeholder="Country of Origin"
-                    id="country"
-                    mb={"10px"}
-                    border={"1px solid #378BA4"}
-                  />
+                </FormControl>
+                <Box mb='10' display={'flex'} justifyContent={'center'} mt={'7'}>
+                    <Button colorScheme="pink" type="submit">Submit</Button>
                 </Box>
-              </Box>
-            </Flex>
-            <Box>
-              <Textarea
-                placeholder="Input Your News Content"
-                height={"300px"}
-                w={"820px"}
-                mb={"20px"}
-                id="content"
-                border={"1px solid #378BA4"}
-              ></Textarea>
             </Box>
-            <Button colorScheme="facebook" type="submit">
-              CREATE!
-            </Button>
-          </form>
-        </Stack>
-      </Box>
-    </Box>
-  );
-};
+            </form>
+            </Box>
+           <Footer/>
+            </>}
+        </Box>
+    )
+}

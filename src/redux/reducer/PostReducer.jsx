@@ -1,12 +1,14 @@
+import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { json } from "react-router-dom";
+import axios from "axios"
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const initialState = {
   article: [],
 };
+
 
 export const PostReducer = createSlice({
   name: "PostReducer",
@@ -19,11 +21,12 @@ export const PostReducer = createSlice({
 });
 
 export const newPost = (data, file) => {
+
   return async () => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
     console.log(data);
-    formData.append("data", (data));
+    formData.append("data", JSON.stringify(data));
     formData.append("file", file);
 
     try {
@@ -47,11 +50,11 @@ export const newPost = (data, file) => {
         progress: undefined,
         theme: "colored",
       });
-      //   document.location.href = "/";
+        document.location.href = "/";
     } catch (error) {
-      //   toast.error(error.message);
-      toast.error("Error creating article, please try again!", {
-        position: "bottom-center",
+      console.log(error.response);
+      toast.error(`Can't Create Post`, {
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -59,11 +62,11 @@ export const newPost = (data, file) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-      });
-      console.log(error.response);
+        })
     }
   };
 };
+
 
 export const likePost = (postId) => {
   return async () => {
@@ -84,6 +87,7 @@ export const likePost = (postId) => {
       alert("You liked the post");
     } catch (error) {
       alert(error.response.data.err);
+      
     }
   };
 };

@@ -8,6 +8,7 @@ import { Verification } from './pages/VerificationPage';
 import { ResetPassword } from './pages/ResetPassword';
 import SettingPage from './pages/SettingPage/SettingPage';
 import { TrialWriting } from './pages/WritingPage/TrialWriting';
+import { Writing } from './pages/Writing';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       <>
       <Routes>
         <Route path='/' element={<LandingPage/>} />
-        <Route path='/write-page' element={<TrialWriting/>} />
+        <Route path='/write-page' element={<Writing/>} />
         <Route path='/register' element={<RegistPage/>}></Route>
         <Route path='/forgot-password' element={<ForgotPassword/>}></Route>
         <Route path={`verification/${token}`} element={<Verification/>}></Route>

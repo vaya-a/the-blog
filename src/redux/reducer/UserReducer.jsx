@@ -2,6 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-toastify"
 
 const initialState = {
   user: {
