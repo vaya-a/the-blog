@@ -2,9 +2,10 @@ import React from "react";
 import { Menu,MenuButton, MenuList, MenuItem, VStack, Text, Link, MenuDivider, Button, useColorModeValue, Avatar  } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../../redux/reducer/UserReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const ProfileMenu = () => {
+    const { user } = useSelector((state) => state.UserReducer);
     const navigate = useNavigate()
     const toWritePage = () => {
         navigate("/write-page")
@@ -14,13 +15,14 @@ export const ProfileMenu = () => {
       }
       const dispatch = useDispatch()
       const logout = () => { 
-      dispatch(userLogout())}
+      dispatch(userLogout())
+    navigate("/")}
     return(
         <Menu isLazy>
               <MenuButton as={Button} size="sm" px={0} py={0} rounded="full">
                 <Avatar
                   size="sm"
-                  src={"https://avatars2.githubusercontent.com/u/37842853?v=4"}
+                  src={user.imgProfile}
                 />
               </MenuButton>
               <MenuList
@@ -36,9 +38,8 @@ export const ProfileMenu = () => {
                 >
                   <MenuItem>
                     <VStack justify="start" alignItems="left">
-                      <Text fontWeight="500">Unkown User</Text>
                       <Text size="sm" color="gray.500" mt="0 !important">
-                        @unknown_user
+                        @{user.username}
                       </Text>
                     </VStack>
                   </MenuItem>

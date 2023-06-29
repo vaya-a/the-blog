@@ -21,7 +21,7 @@ import {
   import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
   import { useNavigate } from "react-router-dom";
   import { useDispatch } from 'react-redux';
-  import { userLogin, setUser, setToken} from "../../redux/reducer/UserReducer";
+  import { userLogin, setUser} from "../../redux/reducer/UserReducer";
   import axios from "axios";
   import { useFormik } from "formik";
   import * as Yup from "yup"
@@ -61,7 +61,7 @@ import {
 
                   dispatch(userLogin(res.data.token));
                   dispatch(setUser(res.data.isAccountExist))
-                  localStorage.setItem("token", res.data.token)
+                  //localStorage.setItem("token", res.data.token)
 
                   console.log(res)
                   navigate("/")
@@ -74,16 +74,6 @@ import {
                         status: "error",
                         isClosable: true,
                       });
-                      // toast.error("Error creating article, please try again!", {
-                      //   position: "top-right",
-                      //   autoClose: 5000,
-                      //   hideProgressBar: false,
-                      //   closeOnClick: true,
-                      //   pauseOnHover: true,
-                      //   draggable: true,
-                      //   progress: undefined,
-                      //   theme: "colored",
-                      // });
                     console.log(err)
                     console.log(`${value} phone`)
                 }

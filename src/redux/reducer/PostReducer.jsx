@@ -1,14 +1,12 @@
 import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios"
+import axios from "axios";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
+import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
   article: [],
 };
-
 
 export const PostReducer = createSlice({
   name: "PostReducer",
@@ -21,7 +19,6 @@ export const PostReducer = createSlice({
 });
 
 export const newPost = (data, file) => {
-
   return async () => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
@@ -33,13 +30,13 @@ export const newPost = (data, file) => {
       const res = await axios.post(
         `https://minpro-blog.purwadhikabootcamp.com/api/blog`,
         formData,
-
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
       toast.success("Your Beauty Journey Posted!", {
         position: "bottom-center",
         autoClose: 5000,
@@ -50,9 +47,11 @@ export const newPost = (data, file) => {
         progress: undefined,
         theme: "colored",
       });
-        document.location.href = "/";
+
+      document.location.href = "/";
     } catch (error) {
       console.log(error.response);
+
       toast.error(`Can't Create Post`, {
         position: "top-center",
         autoClose: 5000,
@@ -62,11 +61,10 @@ export const newPost = (data, file) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        })
+      });
     }
   };
 };
-
 
 export const likePost = (postId) => {
   return async () => {
@@ -87,7 +85,6 @@ export const likePost = (postId) => {
       alert("You liked the post");
     } catch (error) {
       alert(error.response.data.err);
-      
     }
   };
 };

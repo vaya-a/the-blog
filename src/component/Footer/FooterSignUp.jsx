@@ -6,10 +6,10 @@ export const FooterSignUp = () => {
     return(
         <>
         <Heading fontSize="24px" mb="15px" className="yellow-gradient-color">
-          Be the first to know
+          Want more?
         </Heading>
         <Text color="gray.400" mb="15px">
-          Get notified about the upcoming sessions, news, articles, jobs, and opensource projects.
+          Get Our Daily Dose of Beauty & Life Style
         </Text>
   
         <form action="#">
@@ -21,22 +21,24 @@ export const FooterSignUp = () => {
               px="25px"
               height="50px"
               rounded="50px"
-              bg={useColorModeValue('gray.900', 'gray.600')}
-              _placeholder={{ color: 'gray.300' }}
+              border={"3px"}
+              borderColor={"pink.200"}
+              bg={useColorModeValue('white.100', 'pink.400')}
+              _placeholder={{ color: 'pink.600' }}
               placeholder="Enter your email"
               _focus={{ outline: 0 }}
-              color="gray.100"
+              color="cyan.700"
               borderWidth={0}
             />
             <Button
               type="submit"
               height="50px"
               color="gray.100"
-              _hover={{ bg: 'yellow.400', color: 'gray.900' }}
+              _hover={{ bg: 'pink.400', color: 'grey.300' }}
               position="absolute"
               top="0"
               right="0"
-              bg="gray.700"
+              bg="pink.700"
               rounded="50px"
               px="25px"
             >

@@ -1,13 +1,11 @@
 import React from 'react';
 import { LandingPage } from './pages/LandingPage/LandingPage';
-import { WritingPage } from './pages/WritingPage/WritingPage';
 import { Route, Routes } from 'react-router-dom';
 import { RegistPage } from './pages/RegistPage';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Verification } from './pages/VerificationPage';
 import { ResetPassword } from './pages/ResetPassword';
 import SettingPage from './pages/SettingPage/SettingPage';
-import { TrialWriting } from './pages/WritingPage/TrialWriting';
 import { Writing } from './pages/Writing';
 
 

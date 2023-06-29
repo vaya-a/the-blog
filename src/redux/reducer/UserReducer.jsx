@@ -1,8 +1,5 @@
-import { useToast } from "@chakra-ui/react";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useState } from "react";
-import toast from "react-toastify"
 
 const initialState = {
   user: {
@@ -43,10 +40,12 @@ export const UserReducer = createSlice({
     userLogin: (state, action) => {
       state.login = true;
       state.loginError = null;
+      localStorage.setItem("token", action.payload)
     },
 
     userLogout: (state, action) => {
       state.login = false;
+      localStorage.removeItem("token")
     },
     keepLoginSuccess: (state) => {
       state.login = true;

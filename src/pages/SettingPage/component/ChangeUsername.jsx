@@ -12,9 +12,9 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
     const navigate = useNavigate()
     const handleModalClose = () => {
       onClose();
-      navigate('/settings'); // Navigate back to the previous route
+      navigate('/'); // Navigate back to the previous route
     };
-    //const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token")
     const login = useSelector((state) => state.UserReducer.login)
     const { user } = useSelector((state) => state.UserReducer);
     const toast = useToast();
@@ -30,7 +30,7 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${token}`,
                   },
                 }
               );
@@ -45,7 +45,7 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
         }
         catch(err){
           toast({
-            title: `Failed to login: ` + err.response.data.err.name,
+            title: `Failed to change username: ` + err.response.data,
             status: "error",
             duration: "2000",
             isClosable: true,
@@ -101,7 +101,8 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
             </ModalBody>
   
             <ModalFooter>
-              <Button onClick={changeusn} colorScheme='pink' mr={3}>
+              <Button onClick={() => {changeusn() 
+                formik.resetForm()}} colorScheme='pink' mr={3}>
                 Save
               </Button>
               <Button onClick={onClose}>Cancel</Button>

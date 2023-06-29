@@ -42,10 +42,6 @@ export const Footer = () => {
                 />
             
                 </SimpleGrid>
-                <Text mt="20px" color="gray.500">
-                Hi Hello Hola Hi
-            
-                </Text>
                 </Box>
             <Box d={['none', 'none', 'block', 'block']}>
                 <FooterSignUp />

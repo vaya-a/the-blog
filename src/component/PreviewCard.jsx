@@ -58,6 +58,7 @@ export const PreviewCard = () => {
           In this post, we will give an overview of what is new in React 18,
           and what it means for the future.
         </Text>
+        <Text color="black" >Author: </Text>
       </Box>
       <HStack borderTop={"1px"} color="black">
         <Flex

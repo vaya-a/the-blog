@@ -1,6 +1,6 @@
-import React, {useRef, useState} from "react";
-import { Box, Flex, FormHelperText, Textarea, FormControl, FormLabel, Input, Select, Heading, Button, Image } from "@chakra-ui/react";
-import { Navbar1 } from "../component/Navbar-1";
+import React, {useState} from "react";
+import { Box, Flex, Textarea, FormControl, FormLabel, Input, Select, Heading, Button, Image } from "@chakra-ui/react";
+import { Navbar1 } from "../component/Navbar";
 import { Footer } from "../component/Footer/Footer";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
@@ -9,12 +9,11 @@ import { newPost } from "../redux/reducer/PostReducer";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import toast from "react-toastify"
+import { ToastContainer } from "react-toastify";
 
 
 export const Writing = () => {
-  
+  const userLogin = localStorage.getItem("token")
   const login = useSelector((state) => state.UserReducer.login)
 
   const [selectedOption, setSelectedOption] = useState("");
@@ -64,7 +63,7 @@ export const Writing = () => {
 
     return(
         <Box>
-            {!login ? 
+            {!login && !userLogin ? 
             <>
             <Routes>
             <Route path='/' element={<LandingPage/>} />
@@ -74,6 +73,7 @@ export const Writing = () => {
             <Navbar1/>
             <Box h={'70%'} margin={'40'} borderWidth="2px" borderColor="pink.300" borderRadius="md" p={4}>
             <Box mt={'20'} display={'flex'} justifyContent={'center'}>
+            <ToastContainer/>
                 <Heading>Share Your Beauty Journey</Heading>
             </Box>
             <br/>

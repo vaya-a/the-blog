@@ -92,7 +92,7 @@ export const ResetPassword = () => {
                 <FormControl isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}>
                     <FormLabel>Confirm Password</FormLabel>
                     <Input
-                    type="confirmPassword"
+                    type="password"
                     name="confirmPassword"
                     {...formik.getFieldProps('confirmPassword')}
                     onChange={formik.handleChange}></Input>

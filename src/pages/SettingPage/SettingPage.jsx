@@ -15,9 +15,11 @@ import {
   import { LandingPage } from "../LandingPage/LandingPage";
   import { useNavigate } from "react-router-dom";
   import { ChangeUsername } from "./component/ChangeUsername";
-  import { ChangePhone } from "./component/ChangePhone";
+  import Email from "./component/Email";
+  import Phone from "./component/Phone";
 
   export default function SettingPage() {
+    const userLogin = localStorage.getItem("token")
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { user } = useSelector((state) => state.UserReducer);
     //const userLogin = localStorage.getItem("token")
@@ -30,7 +32,7 @@ import {
     return (
         <>
         <Box>
-            {!login ? <>
+            {!login && !userLogin ? <>
                 <Box>
                     <Routes>
                         <Route path='/' element={<LandingPage/>} />
@@ -81,16 +83,9 @@ import {
                 <ChangeUsername isOpen={isOpen} onClose={onClose} onOpen={onOpen}/>
             </FormControl>
             <Divider/>
-            <FormControl mt='2' textAlign={'left'}>
-                <FormLabel>Email</FormLabel>
-                <Text>{user.email}</Text>
-            </FormControl>
+            <Email/>
             <Divider/>
-            <FormControl onClick={onOpen} cursor={'pointer'} mt='2' textAlign={'left'}>
-                <FormLabel onClick={onOpen} cursor={'pointer'}>Phone</FormLabel>
-                <Text onClick={onOpen} cursor={'pointer'}>{user.phone}</Text>
-                {/* <ChangePhone isOpen={isOpen} onClose={onClose} onOpen={onOpen}/> */}
-            </FormControl>
+           <Phone/>
             <Divider/>
             <FormControl cursor={'pointer'} mt='3' textAlign={'left'}>
                 <Text>Change Password</Text>
