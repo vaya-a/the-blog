@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Flex} from '@chakra-ui/react'
-import { ImageNav } from "./Navbar/ImageNav";
-import { ButtonGroupNav } from "./Navbar/ButtonGroupNav";
-import { InputGroupNav } from "./Navbar/InputGroupNav";
-import { ProfileMenu } from "./Navbar/ProfileMenu";
+import { ImageNav } from "./ImageNav";
+import { ButtonGroupNav } from "./component/ButtonGroupNav";
+import { InputGroupNav } from "./InputGroupNav";
+import { ProfileMenu } from "./ProfileMenu";
 import { useSelector } from "react-redux";
 
 export const Navbar1 = () => {

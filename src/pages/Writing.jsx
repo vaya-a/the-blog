@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Box, Flex, Textarea, FormControl, FormLabel, Input, Select, Heading, Button, Image } from "@chakra-ui/react";
-import { Navbar1 } from "../component/Navbar";
+import { Navbar1 } from "../component/Navbar/Navbar";
 import { Footer } from "../component/Footer/Footer";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
