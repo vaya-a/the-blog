@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu,MenuButton, MenuList, MenuItem, VStack, Text, Link, MenuDivider, Button, useColorModeValue, Avatar  } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { userLogout } from "../../redux/reducer/UserReducer";
+import { userLogout } from "../../../redux/reducer/UserReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 export const ProfileMenu = () => {

@@ -21,7 +21,7 @@ import {
   import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
   import { useNavigate } from "react-router-dom";
   import { useDispatch } from 'react-redux';
-  import { userLogin, setUser} from "../../redux/reducer/UserReducer";
+  import { userLogin, setUser } from "../../../redux/reducer/UserReducer";
   import axios from "axios";
   import { useFormik } from "formik";
   import * as Yup from "yup"

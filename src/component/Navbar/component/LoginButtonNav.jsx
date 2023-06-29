@@ -1,9 +1,10 @@
 import React from 'react'
 import {Button, useDisclosure} from '@chakra-ui/react'
 import { LoginModal } from './LoginModal'
-import { useNavigate, useLocation} from 'react-router-dom'
-import { LandingPage } from '../../pages/LandingPage/LandingPage'
+import { LandingPage } from '../../../pages/LandingPage/LandingPage'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 
 export const LoginButtonNav = () => {
