@@ -3,6 +3,8 @@ import { Menu,MenuButton, MenuList, MenuItem, VStack, Text, Link, MenuDivider, B
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../../../redux/reducer/UserReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const ProfileMenu = () => {
     const { user } = useSelector((state) => state.UserReducer);
@@ -13,16 +15,45 @@ export const ProfileMenu = () => {
     const toSettingPage = () => {
         navigate("/settings")
       }
+
+      const handleRefresh = () => {
+        window.location.reload(); // Refresh the page
+      };
+
       const dispatch = useDispatch()
       const logout = () => { 
-      dispatch(userLogout())
+      dispatch(userLogout(),
+      handleRefresh())
     navigate("/")}
+
+    const [data, setData] = useState("");
+    const getData = async() => {
+      const token = localStorage.getItem("token");
+      try {
+        if (token) {
+          const respon = await axios.get(
+            "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(setData(respon.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getData();
+    }, []);
     return(
         <Menu isLazy>
               <MenuButton as={Button} size="sm" px={0} py={0} rounded="full">
                 <Avatar
                   size="sm"
-                  src={user.imgProfile}
+                  src={data.imgProfile}
                 />
               </MenuButton>
               <MenuList
@@ -32,14 +63,13 @@ export const ProfileMenu = () => {
                 boxShadow="4px 4px 0"
               >
                 <Link
-                  href="https://dev.to/m_ahmad"
                   _hover={{ textDecoration: "none" }}
                   isExternal
                 >
                   <MenuItem>
                     <VStack justify="start" alignItems="left">
                       <Text size="sm" color="gray.500" mt="0 !important">
-                        @{user.username}
+                        @{data.username}
                       </Text>
                     </VStack>
                   </MenuItem>

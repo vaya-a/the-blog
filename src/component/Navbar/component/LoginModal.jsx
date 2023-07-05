@@ -21,12 +21,13 @@ import {
   import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
   import { useNavigate } from "react-router-dom";
   import { useDispatch } from 'react-redux';
-  import { userLogin, setUser } from "../../../redux/reducer/UserReducer";
+  import { userLogin, setUser, keepLogin } from "../../../redux/reducer/UserReducer";
   import axios from "axios";
   import { useFormik } from "formik";
   import * as Yup from "yup"
+  import { useEffect } from "react";
 
-  export const LoginModal = ({ isOpen, onClose }) => {
+  export const LoginModal = ({ isOpen, onClose, children }) => {
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
     const navigate = useNavigate()
@@ -41,10 +42,13 @@ import {
       }
 
     const login = async () => {
+
         const value = formik.values.theinput
         const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
         const phonePattern = /^\d+$/;
         const emailPattern = /^[\w.-]+@[\w.-]+\.\w+$/;
+
+
 
         if(phonePattern.test(value)){
             try{
@@ -61,6 +65,7 @@ import {
 
                   dispatch(userLogin(res.data.token));
                   dispatch(setUser(res.data.isAccountExist))
+
                   //localStorage.setItem("token", res.data.token)
 
                   console.log(res)
@@ -94,7 +99,7 @@ import {
 
                   dispatch(userLogin(res.data.token));
                   dispatch(setUser(res.data.isAccountExist))
-                  localStorage.setItem("token", res.data.token)
+
                   console.log(res)
                   navigate("/")
                   handleModalClose()
@@ -128,7 +133,6 @@ import {
                   });
                   dispatch(userLogin(res.data.token));
                   dispatch(setUser(res.data.isAccountExist))
-                  localStorage.setItem("token", res.data.token)
 
                   console.log(res)
                   navigate("/")
@@ -198,7 +202,7 @@ import {
             <ModalCloseButton />
             <ModalBody>
               <FormControl isInvalid={formik.touched.theinput && formik.errors.theinput}>
-                <FormLabel>Username or Email or Password</FormLabel>
+                <FormLabel>Username or Email or Phone Number</FormLabel>
                   <Input type="text"
                         name="theinput"
                         {...formik.getFieldProps('theinput')}
@@ -206,18 +210,18 @@ import {
                         {formik.touched.theinput && formik.errors.theinput && <FormErrorMessage>{formik.errors.theinput}</FormErrorMessage>}
                 </FormControl>
                 <FormControl isInvalid={formik.touched.password && formik.errors.password}>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
-                <Input type={show ? 'text' : 'password'} name="password"
-                        {...formik.getFieldProps('password')}
-                        onChange={formik.handleChange}/>
-                <InputRightElement width='4.5rem'>
-                <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick}>
-                {show ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
-                </Button>
-                </InputRightElement>
-                </InputGroup>
-                {formik.touched.password && formik.errors.password && <FormErrorMessage>{formik.errors.password}</FormErrorMessage>}
+                  <FormLabel>Password</FormLabel>
+                    <InputGroup>
+                      <Input type={show ? 'text' : 'password'} name="password"
+                              {...formik.getFieldProps('password')}
+                              onChange={formik.handleChange}/>
+                      <InputRightElement width='4.5rem'>
+                        <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick}>
+                        {show ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                  {formik.touched.password && formik.errors.password && <FormErrorMessage>{formik.errors.password}</FormErrorMessage>}
                 </FormControl>
             </ModalBody>
             <ModalFooter display={"grid"}>

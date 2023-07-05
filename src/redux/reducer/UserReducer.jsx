@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   user: {
@@ -54,6 +55,10 @@ export const UserReducer = createSlice({
       state.imgProfile.push(action.payload);
     },
 
+    setProfileImage: (state, action) => {
+      state.user.imgProfile = action.payload;
+    }
+
   },
 });
 
@@ -103,6 +108,61 @@ export const keepLogin = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+export const setProfileImage = (imageURL) => {
+  return {
+    type: "auth/setProfileImage",
+    payload: imageURL,
+  };
+};
+
+export const newProfPict = (file) => {
+  return async () => {
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await axios.post(
+        `https://minpro-blog.purwadhikabootcamp.com/api/profile/single-uploaded`,{
+        imgProfile: file
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res)
+
+      toast.success("Your Profile Picture Changed!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      document.location.href = "/settings";
+    } catch (error) {
+      console.log(error.response);
+
+      toast.error(`Can't Change Profile Picture`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 };

@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Modal, Button, ModalOverlay, ModalContent, ModalHeader, 
     ModalCloseButton, ModalBody, FormControl, Input, ModalFooter,
-    useDisclosure, FormLabel, useToast, Text} from "@chakra-ui/react";
+    FormLabel, useToast, Text} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -18,13 +18,38 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
     const login = useSelector((state) => state.UserReducer.login)
     const { user } = useSelector((state) => state.UserReducer);
     const toast = useToast();
+
+    const dispatch = useDispatch()
+    const [data, setData] = useState("");
+    const getData = async() => {
+      const token = localStorage.getItem("token");
+      try {
+        if (token) {
+          const respon = await axios.get(
+            "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(setData(respon.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getData();
+    }, []);
+
   
     const changeusn = async () => {
         try{
             const res = await axios.patch(
                 "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername",
                 {
-                    currentUsername: user.username,
+                    currentUsername: data.username,
                     newUsername: formik.values.username,
                     "FE_URL": "http://localhost:3000"
                 },
@@ -35,7 +60,7 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
                 }
               );
               toast({
-                title: "Your username successfully changed. Please check your email to re-verificate your Account!" ,
+                title: "Your username successfully changed!" ,
                 status: "success",
                 isClosable: true,
               });
@@ -76,7 +101,7 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
       <>
         <Modal
          Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={() => {
-            handleModalClose()
+            onClose()
             resetForm()
           }}
         >
@@ -87,7 +112,7 @@ export const ChangeUsername = ({ isOpen, onClose }) => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Current Username</FormLabel>
-                <Text>{user.username}</Text>
+                <Text>{data.username}</Text>
               </FormControl>
   
               <FormControl mt={4}>

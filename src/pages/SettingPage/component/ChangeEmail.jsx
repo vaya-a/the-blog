@@ -1,12 +1,13 @@
 import React from "react";
 import { Modal, Button, ModalOverlay, ModalContent, ModalHeader, 
     ModalCloseButton, ModalBody, FormControl, Input, ModalFooter,
-    useDisclosure, FormLabel, useToast, Text} from "@chakra-ui/react";
+    FormLabel, useToast, Text} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+import { useState, useEffect } from "react";
 
 export const ChangeEmail = ({ isOpen, onClose }) => {
     const navigate = useNavigate()
@@ -15,32 +16,55 @@ export const ChangeEmail = ({ isOpen, onClose }) => {
       navigate('/settings'); // Navigate back to the previous route
     };
     //const token = localStorage.getItem("token")
-    const login = useSelector((state) => state.UserReducer.login)
-    const { user } = useSelector((state) => state.UserReducer);
     const toast = useToast();
+
+    const dispatch = useDispatch()
+    const [data, setData] = useState("");
+    const getData = async() => {
+      const token = localStorage.getItem("token");
+      try {
+        if (token) {
+          const respon = await axios.get(
+            "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(setData(respon.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getData();
+    }, []);
+
   
     const changemail = async () => {
         try{
             const res = await axios.patch(
                 "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeEmail",
                 {
-                    currentEmail: user.email,
+                    currentEmail: data.email,
                     newEmail: formik.values.newEmail,
                     "FE_URL": "http://localhost:3000"
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${data.token}`,
                   },
                 }
               );
               toast({
-                title: "Your username successfully changed. Please check your email to re-verificate your Account!" ,
+                title: "Your email successfully changed!" ,
                 status: "success",
                 isClosable: true,
               });
               console.log(res)
-              console.log(user.token)
+              console.log(data.token)
 
         }
         catch(err){
@@ -51,7 +75,7 @@ export const ChangeEmail = ({ isOpen, onClose }) => {
             isClosable: true,
           });
             console.log(err)
-            console.log(user.token)
+            console.log(data.token)
         }
     }
 
@@ -87,11 +111,11 @@ export const ChangeEmail = ({ isOpen, onClose }) => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Current Email</FormLabel>
-                <Text>{user.email}</Text>
+                <Text>{data.email}</Text>
               </FormControl>
   
               <FormControl mt={4}>
-                <FormLabel>New Username</FormLabel>
+                <FormLabel>New Email</FormLabel>
                 <Input placeholder='Input new email'
                 type="email"
                 name="email"

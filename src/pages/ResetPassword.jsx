@@ -1,11 +1,19 @@
 import React from "react";
 import { FormControl, FormLabel, Input, Box, useToast, Button, FormErrorMessage, Image, Heading } from "@chakra-ui/react";
+import { InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'
+import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 
 export const ResetPassword = () => {
+    const [show1, setShow1] = React.useState(false)
+    const handleClick1 = () => setShow1(!show1)
+
+    const [show2, setShow2] = React.useState(false)
+    const handleClick2 = () => setShow2(!show2)
+
     const toast = useToast()
     const navigate = useNavigate()
     const url = window.location.href.split("/");
@@ -81,21 +89,30 @@ export const ResetPassword = () => {
         <br/>
         <FormControl isInvalid={formik.touched.password && formik.errors.password}>
                     <FormLabel>Enter a new password</FormLabel>
-                    <Input
-                    type="password"
-                    name="password"
-                    {...formik.getFieldProps('password')}
-                    onChange={formik.handleChange}
-                    ></Input>
+                    <InputGroup>
+                      <Input type={show1 ? 'text' : 'password'} name="password"
+                              {...formik.getFieldProps('password')}
+                              onChange={formik.handleChange}/>
+                      <InputRightElement width='4.5rem'>
+                        <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick1}>
+                        {show1 ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     {formik.touched.password && formik.errors.password && <FormErrorMessage>{formik.errors.password}</FormErrorMessage>}
                 </FormControl>
                 <FormControl isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}>
                     <FormLabel>Confirm Password</FormLabel>
-                    <Input
-                    type="password"
-                    name="confirmPassword"
-                    {...formik.getFieldProps('confirmPassword')}
-                    onChange={formik.handleChange}></Input>
+                        <InputGroup>
+                            <Input type={show2 ? 'text' : 'password'} name="confirmPassword"
+                            {...formik.getFieldProps('confirmPassword')}
+                            onChange={formik.handleChange}/>
+                            <InputRightElement width='4.5rem'>
+                                <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick2}>
+                                {show2 ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
+                                </Button>
+                        </InputRightElement>
+                        </InputGroup>
                     {formik.touched.confirmPassword && formik.errors.confirmPassword && <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>}
                 </FormControl>
             </Box>

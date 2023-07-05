@@ -114,7 +114,7 @@ export const Writing = () => {
                     type="file"
                     id="file"
                     variant={"outline"}
-                    colorScheme="facebook"
+                    colorScheme="pink"
                     mb={"10px"}
                     onChange={handleImageUpload}
                   />
@@ -145,7 +145,7 @@ export const Writing = () => {
                   />
                 </FormControl>
                 <Box mb='10' display={'flex'} justifyContent={'center'} mt={'7'}>
-                    <Button colorScheme="pink" type="submit">Submit</Button>
+                    <Button onClick={(event) => {event.preventDefault()}} colorScheme="pink" type="submit">Submit</Button>
                 </Box>
             </Box>
             </form>

@@ -17,17 +17,45 @@ import {
   import { ChangeUsername } from "./component/ChangeUsername";
   import Email from "./component/Email";
   import Phone from "./component/Phone";
+  import axios from "axios";
+  import { useState, useEffect } from "react";
+  import { useDispatch } from "react-redux";
+  import { ChangeProfilePicture } from "./component/ChangeProfilePicture";
+  import { ChangeEmail } from "./component/ChangeEmail";
+import { ProfilePicture } from "./component/ProfilePicture";
 
   export default function SettingPage() {
     const userLogin = localStorage.getItem("token")
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { user } = useSelector((state) => state.UserReducer);
-    //const userLogin = localStorage.getItem("token")
     const login = useSelector((state) => state.UserReducer.login)
     const navigte = useNavigate()
     const toLandingPage = () => {
         navigte("/")
     }
+
+    const dispatch = useDispatch()
+    const [data, setData] = useState("");
+    const token = localStorage.getItem("token");
+    const getData = async() => {
+      try {
+        if (token) {
+          const respon = await axios.get(
+            "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(setData(respon.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getData();
+    }, []);
 
     return (
         <>
@@ -52,44 +80,21 @@ import {
           p={6}
           textAlign={"center"}
         >
-          <Avatar
-            size={"xl"}
-            src={
-              user.imgProfile
-            }
-            alt={"Avatar Alt"}
-            mb={4}
-            pos={"relative"}
-            _after={{
-              content: '""',
-              w: 4,
-              h: 4,
-              rounded: "full",
-              pos: "absolute",
-              bottom: 0,
-              right: 3
-            }}
-          />
-          <Box mt={"-3"} mb={'3'}>
-          <Button color={"pink.500"} variant={"link"}>Change profile picture</Button>
-          </Box>
+         <ProfilePicture/>
+          
           <Heading size={"lg"} mt={'5'} color={"gray.500"} mb={'6'}>
             Account Information
           </Heading>
         
             <FormControl onClick={onOpen} cursor={'pointer'} textAlign={'left'}>
                 <FormLabel cursor={'pointer'} onClick={onOpen}>Username</FormLabel>
-                <Text onClick={onOpen} cursor={'pointer'}>{user.username}</Text>
+                <Text onClick={onOpen} cursor={'pointer'}>{data.username}</Text>
                 <ChangeUsername isOpen={isOpen} onClose={onClose} onOpen={onOpen}/>
             </FormControl>
             <Divider/>
             <Email/>
             <Divider/>
            <Phone/>
-            <Divider/>
-            <FormControl cursor={'pointer'} mt='3' textAlign={'left'}>
-                <Text>Change Password</Text>
-            </FormControl>
             <Divider mt={'2'} mb={10}></Divider>
             <Box display={'flex'} justifyContent={'right'}>
             <Button onClick={toLandingPage} variant={'link'}>Back to Home</Button>

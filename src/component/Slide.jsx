@@ -104,7 +104,7 @@ export const Slide = () => {
                         >
                           <Box justifyContent={'center'} display={'flex'}>
                               <Box w={'60%'} h={'35%'} bg={"rgba(255, 255, 255, 0.7)"} >
-                                <Text fontSize="2xl">{slide.title}</Text>
+                                <Text fontFamily={"fantasy"} fontSize="2xl">{slide.title}</Text>
                                 <Text fontSize="lg">{slide.User.username}</Text>
                               </Box>
                           </Box>

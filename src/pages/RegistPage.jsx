@@ -1,14 +1,21 @@
 import React from "react";
 import Fonts from "../component/assets/Fonts";
 
-import { Box, Heading, Image, useToast } from "@chakra-ui/react";
+import { Box, Heading, Image, useToast, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { FormLabel, Input, FormErrorMessage, FormControl, Button } from "@chakra-ui/react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 
 export const RegistPage = () => {
+    const [show1, setShow1] = React.useState(false)
+    const handleClick1 = () => setShow1(!show1)
+
+    const [show2, setShow2] = React.useState(false)
+    const handleClick2 = () => setShow2(!show2)
+
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const toast = useToast()
     const navigate = useNavigate()
@@ -99,60 +106,68 @@ export const RegistPage = () => {
                     <Box>
 
                     <FormControl isInvalid={formik.touched.email && formik.errors.email}>
-                    <FormLabel className="label-required">Email</FormLabel>
-                    <Input
-                        type="email"
-                        name="email"
-                        {...formik.getFieldProps('email')}
-                        onChange={formik.handleChange}
-                    />
-                    {formik.touched.email && formik.errors.email && <FormErrorMessage>{formik.errors.email}</FormErrorMessage>}
+                        <FormLabel className="label-required">Email</FormLabel>
+                            <Input
+                                type="email"
+                                name="email"
+                                {...formik.getFieldProps('email')}
+                                onChange={formik.handleChange}
+                            />
+                            {formik.touched.email && formik.errors.email && <FormErrorMessage>{formik.errors.email}</FormErrorMessage>}
                     </FormControl>
+
                     <FormControl isInvalid={formik.touched.phone && formik.errors.phone}>
-                    <FormLabel mt={'3'} className="label-required">Phone</FormLabel>
-                    <Input
-                        type="text"
-                        name="phone"
-                        {...formik.getFieldProps('phone')}
-                        onChange={formik.handleChange}
-                        mt={'-0.5'}
-                    />
-                    {formik.touched.phone && formik.errors.phone && <FormErrorMessage>{formik.errors.phone}</FormErrorMessage>}
-                </FormControl>
+                        <FormLabel mt={'3'} className="label-required">Phone</FormLabel>
+                            <Input
+                                type="text"
+                                name="phone"
+                                {...formik.getFieldProps('phone')}
+                                onChange={formik.handleChange}
+                                mt={'-0.5'}
+                            />
+                            {formik.touched.phone && formik.errors.phone && <FormErrorMessage>{formik.errors.phone}</FormErrorMessage>}
+                    </FormControl>
+
                     <FormControl isInvalid={formik.touched.username && formik.errors.username}>
-                    <FormLabel mt={'3'} className="label-required">Username</FormLabel>
-                    <Input
-                        type="text"
-                        name="username"
-                        {...formik.getFieldProps('username')}
-                        onChange={formik.handleChange}
-                        mt={'-0.5'}
-                    />
-                    {formik.touched.username && formik.errors.username && <FormErrorMessage>{formik.errors.username}</FormErrorMessage>}
-                </FormControl>
+                        <FormLabel mt={'3'} className="label-required">Username</FormLabel>
+                            <Input
+                                type="text"
+                                name="username"
+                                {...formik.getFieldProps('username')}
+                                onChange={formik.handleChange}
+                                mt={'-0.5'}
+                            />
+                            {formik.touched.username && formik.errors.username && <FormErrorMessage>{formik.errors.username}</FormErrorMessage>}
+                    </FormControl>
                
-                <FormControl isInvalid={formik.touched.password && formik.errors.password}>
-                    <FormLabel mt={'3'} className="label-required">Password</FormLabel>
-                    <Input
-                        type="password"
-                        name="password"
-                        {...formik.getFieldProps('password')}
-                        onChange={formik.handleChange}
-                        mt={'-0.5'}
-                    />
-                    {formik.touched.password && formik.errors.password && <FormErrorMessage>{formik.errors.password}</FormErrorMessage>}
-                </FormControl>
-                <FormControl isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}>
-                    <FormLabel mt={'3'} className="label-required">Confirm Password</FormLabel>
-                    <Input
-                        type="password"
-                        name="confirmPassword"
-                        {...formik.getFieldProps('confirmPassword')}
-                        onChange={formik.handleChange}
-                        mt={'-0.5'}
-                    />
-                    {formik.touched.confirmPassword && formik.errors.confirmPassword && <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>}
-                </FormControl>
+                    <FormControl isInvalid={formik.touched.password && formik.errors.password}>
+                        <FormLabel mt={'3'} className="label-required">Password</FormLabel>
+                            <InputGroup>
+                                <Input type={show1 ? 'text' : 'password'} name="password"
+                                {...formik.getFieldProps('password')}
+                                onChange={formik.handleChange}/>
+                                <InputRightElement width='4.5rem'>
+                                    <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick1}>
+                                    {show1 ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
+                        {formik.touched.password && formik.errors.password && <FormErrorMessage>{formik.errors.password}</FormErrorMessage>}
+                    </FormControl>
+                    
+                    <FormControl isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}>
+                        <FormLabel mt={'3'} className="label-required">Confirm Password</FormLabel>
+                            <InputGroup>
+                                <Input  type={show2 ? 'text' : 'password'} {...formik.getFieldProps('confirmPassword')}
+                                onChange={formik.handleChange}/>
+                                <InputRightElement width='4.5rem'>
+                                    <Button variant={'link'} h='1.75rem' size='sm' onClick={handleClick2}>
+                                    {show2 ? <ViewOffIcon color={'gray.500'}/> : <ViewIcon color={'gray.500'}/>}
+                                    </Button>
+                                </InputRightElement>
+                             </InputGroup>
+                            {formik.touched.confirmPassword && formik.errors.confirmPassword && <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>}
+                    </FormControl>
                 
             </Box>
             <Box display={'grid'} justifyContent={'center'} mt={'5'}>

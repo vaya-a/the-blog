@@ -1,12 +1,13 @@
 import React from "react";
 import { Modal, Button, ModalOverlay, ModalContent, ModalHeader, 
     ModalCloseButton, ModalBody, FormControl, Input, ModalFooter,
-    useDisclosure, FormLabel, useToast, Text} from "@chakra-ui/react";
+    FormLabel, useToast, Text} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+import { useState, useEffect } from "react";
 
 export const ChangePhone = ({ isOpen, onClose }) => {
     const navigate = useNavigate()
@@ -14,21 +15,43 @@ export const ChangePhone = ({ isOpen, onClose }) => {
       onClose();
       navigate('/settings'); // Navigate back to the previous route
     };
-    //const token = localStorage.getItem("token")
-    const login = useSelector((state) => state.UserReducer.login)
-    const { user } = useSelector((state) => state.UserReducer);
+
     const toast = useToast();
+    const token = localStorage.getItem("token");
+
+    const dispatch = useDispatch()
+    const [data, setData] = useState("");
+    const getData = async() => {
+      try {
+        if (token) {
+          const respon = await axios.get(
+            "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(setData(respon.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getData();
+    }, []);
   
     const changephn = async () => {
         try{
             const res = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changePhone", {
-                currentPhone: user.currentPhone,
+                currentPhone: data.currentPhone,
                 newPhone: formik.values.newPhone,
                 FE_URL: "http://localhost:3000"
         },
         {
             headers: {
-              Authorization: `Bearer ${user.token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
             )
@@ -38,7 +61,7 @@ export const ChangePhone = ({ isOpen, onClose }) => {
                 duration: "2000",
                 isClosable: true,
               });
-              console.log(user.token)
+              console.log(token)
               console.log(res)
               navigate("/")
         }
@@ -51,7 +74,7 @@ export const ChangePhone = ({ isOpen, onClose }) => {
                     isClosable: true,
                   });
                 console.log(err)
-                console.log(user.token)
+                console.log(token)
             }
     }
     
@@ -59,7 +82,7 @@ export const ChangePhone = ({ isOpen, onClose }) => {
     const formik = useFormik({
         // initial values
         initialValues: {
-           newUsername: '',
+           newPhone: '',
         },
         // validation schema
         validationSchema: Yup.object({
@@ -89,7 +112,7 @@ export const ChangePhone = ({ isOpen, onClose }) => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Current Phone Number</FormLabel>
-                <Text>{user.phone}</Text>
+                <Text>{data.phone}</Text>
               </FormControl>
   
               <FormControl mt={4}>
