@@ -36,7 +36,7 @@ export const ChangeProfPict = ({ isOpen, onClose }) => {
         try {
           const res = await axios.post(
             `https://minpro-blog.purwadhikabootcamp.com/api/profile/single-uploaded`,{
-            imgProfile: file
+            formData
           },
             {
               headers: {
@@ -46,7 +46,7 @@ export const ChangeProfPict = ({ isOpen, onClose }) => {
           );
           console.log(res)
     
-          toast.success("Your Profile Picture Changed!", {
+          toast("Your Profile Picture Changed!", {
             position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -61,7 +61,7 @@ export const ChangeProfPict = ({ isOpen, onClose }) => {
         } catch (error) {
           console.log(error.response);
     
-          toast.error(`Can't Change Profile Picture`, {
+          toast(`Can't Change Profile Picture`, {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -121,7 +121,7 @@ export const ChangeProfPict = ({ isOpen, onClose }) => {
             </ModalBody>
   
             <ModalFooter>
-              <Button onClick={newProfPict} type="submit" colorScheme='pink' mr={3}>
+              <Button onClick={() => {newProfPict()}} type="submit" colorScheme='pink' mr={3}>
                 Save
               </Button>
               <Button onClick={onClose}>Cancel</Button>

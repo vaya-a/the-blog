@@ -145,7 +145,7 @@ export const Writing = () => {
                   />
                 </FormControl>
                 <Box mb='10' display={'flex'} justifyContent={'center'} mt={'7'}>
-                    <Button onClick={(event) => {event.preventDefault()}} colorScheme="pink" type="submit">Submit</Button>
+                    <Button colorScheme="pink" type="submit">Submit</Button>
                 </Box>
             </Box>
             </form>
